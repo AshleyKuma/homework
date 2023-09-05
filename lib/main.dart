@@ -1,10 +1,18 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'common/dio/http_service_module.dart';
+import 'greeting/greeting_scene.dart';
 import 'launch/launch_scene.dart';
 
 void main() {
-  runApp(const MyApp());
+  // WidgetsFlutterBinding.ensureInitialized();
+  runZonedGuarded(() async {
+    await HttpServiceModule().bind();
+    runApp(const MyApp());
+  }, (error, stackTrace) {});
 }
 
 class MyApp extends StatelessWidget {
@@ -16,15 +24,11 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
         title: 'Fugle-Homework',
         getPages: [
-          GetPage(
-            name: LaunchScene.ROUTE_NAME,
-            page: () => const LaunchScene(),
-          ),
-          GetPage(
-            name: TestScene.ROUTE_NAME,
-            page: () => const TestScene(),
-          ),
+          GetPage(name: LaunchScene.ROUTE_NAME, page: () => const LaunchScene(), bindings: [
+            LaunchSceneBinding(),
+          ]),
         ],
-        home: const LaunchScene());
+        builder: EasyLoading.init(),
+        home: const GreetingScene());
   }
 }

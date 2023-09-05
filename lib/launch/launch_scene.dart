@@ -1,5 +1,14 @@
+import 'dart:async';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../common/base_state.dart';
+import '../controllers/get_industry_list_controller.dart';
+import '../network/model/industry.dart';
+
+part 'launch_scene_binding.dart';
+part 'launch_scene_view.dart';
 
 class LaunchScene extends StatefulWidget {
   static const ROUTE_NAME = "/LaunchScene";
@@ -7,39 +16,37 @@ class LaunchScene extends StatefulWidget {
   const LaunchScene({super.key});
 
   @override
-  State<LaunchScene> createState() => _LaunchSceneState();
+  BaseSceneState<LaunchScene> createState() => _LaunchSceneState();
 }
 
-class _LaunchSceneState extends State<LaunchScene> {
+class _LaunchSceneState extends BaseSceneState<LaunchScene> {
+  final _getIndustryListController = Get.find<GetIndustryListController>();
+
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
-          child: GestureDetector(
-              onTap: () {
-                Get.toNamed(TestScene.ROUTE_NAME);
-              },
-              child: const Text("Loading"))),
+  void initState() {
+    super.initState();
+
+    _getIndustryListController.apiResultStateListener(
+      (state) => state.maybeWhen<void>(
+        success: (data) {
+          EasyLoading.dismiss();
+          print("data.count:${data.first.releaseDate}");
+        },
+        loading: (_) => [EasyLoading.show(status: "撈取資料中...")],
+        error: (_) => [EasyLoading.showError("資料撈取錯誤，請稍後再試。"), EasyLoading.dismiss()],
+        orElse: () => [EasyLoading.showError("資料撈取錯誤，請稍後再試。"), EasyLoading.dismiss()],
+      ),
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _getIndustryListController.getIndustryList();
+    });
   }
-}
 
-class TestScene extends StatefulWidget {
-  static const ROUTE_NAME = "/TestScene";
-
-  const TestScene({super.key});
+  Future<void> _onTryAgain() async {
+    _getIndustryListController.getIndustryList();
+  }
 
   @override
-  State<TestScene> createState() => _TestSceneState();
-}
-
-class _TestSceneState extends State<TestScene> {
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(child: Text("TestScene")),
-    );
-  }
+  BaseStateWidgetBuilder<BaseState<StatefulWidget>> get widgetBuilder => _LaunchSceneBuilder(this);
 }

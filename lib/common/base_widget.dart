@@ -31,13 +31,32 @@ class BaseWidget {
 
   static Widget header({required String title}) => SafeArea(
         bottom: false,
+        left: false,
+        right: false,
         child: SizedBox(
-          width: double.infinity,
           height: 50,
           child: Padding(
-            padding: const EdgeInsets.only(left: 20, top: 10),
+            padding: const EdgeInsets.only(top: 10),
             child: Text(title, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
           ),
         ),
       );
+
+  static Widget detailedColumn({
+    required String title,
+    required String? content,
+  }) =>
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title, style: const TextStyle(color: Colors.grey, fontSize: 15)),
+          const SizedBox(height: 5),
+          Text(content ?? "-", style: const TextStyle(color: Colors.black, fontSize: 15)),
+          const SizedBox(height: 20),
+        ],
+      );
+}
+
+extension StringExt on String {
+  String get moneyFormat => "$this money";
 }

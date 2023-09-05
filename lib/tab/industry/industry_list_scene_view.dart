@@ -11,7 +11,10 @@ class _IndustryListSceneBuilder extends BaseSceneWidgetBuilder<_IndustryListScen
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          BaseWidget.header(title: "產業別"),
+          Padding(
+            padding: const EdgeInsets.only(left: 15),
+            child: BaseWidget.header(title: "產業別"),
+          ),
           const SizedBox(height: 15),
           Expanded(child: industryList),
           const SizedBox(height: 15),

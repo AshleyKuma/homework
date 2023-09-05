@@ -17,7 +17,7 @@ class _LaunchSceneBuilder extends BaseSceneWidgetBuilder<_LaunchSceneState> {
           ),
           body: IndexedStack(
             index: state.selectedTabBar.value.index,
-            children: [
+            children: const [
               IndustryListScene(),
               FavoriteListScene(),
             ],

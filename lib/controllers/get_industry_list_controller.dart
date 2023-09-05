@@ -7,10 +7,10 @@ import 'package:homework/network/model/industry.dart';
 import '../common/dio/http_service_module.dart';
 import '../network/api_result_state.dart';
 import '../network/model/industry_model.dart';
-import '../network/service/industry_service.dart';
+import '../network/service/api_service.dart';
 
 class GetIndustryListController extends GetxController {
-  final service = IndustryService(Get.find<Dio>(tag: HttpServiceModule.tagHomework));
+  final service = APIService(Get.find<Dio>(tag: HttpServiceModule.tagHomework));
 
   final rxApiResultState = Rx<ApiResultState<List<IndustryModel>>>(const ApiResultState.idle());
   ApiResultState<List<IndustryModel>> get apiResultState => rxApiResultState.value;
@@ -47,7 +47,7 @@ class GetIndustryListController extends GetxController {
     try {
       final response = await service.getIndustryList();
       _rxIndustries.value = response.where((e) => e.industryType != IndustryType.unknown).toList();
-      await processIndustryModel();
+      await _processIndustryModel();
       rxApiResultState.value = ApiResultState.success(result: _rxIndustryModel);
     } catch (err) {
       if (err is DioException && err.type == DioExceptionType.cancel) {
@@ -58,7 +58,7 @@ class GetIndustryListController extends GetxController {
     }
   }
 
-  Future<void> processIndustryModel() async {
+  Future<void> _processIndustryModel() async {
     final data = <IndustryModel>[];
     for (var type in IndustryType.values) {
       if (type == IndustryType.unknown) break;

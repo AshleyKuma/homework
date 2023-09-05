@@ -1,11 +1,8 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-
-import 'base_app_text.dart';
+import 'dart:io';
 
 const double kToolbarHeight = 56.0;
-
-typedef TitleBuilder = Widget Function(BuildContext, Widget Function(String));
 
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   BaseAppBar({
@@ -25,43 +22,37 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget>? actions;
   final PreferredSizeWidget? bottom;
   final bool? centerTitle;
+  @override
+  final Size preferredSize;
   final Color? backgroundColor;
   final double elevation;
 
   @override
-  final Size preferredSize;
-
-  Widget? _makeTitleWidget(BuildContext context) {
-    if (title is TitleBuilder) {
-      return title(
-        context,
-        (title) => BaseAppText.semiBold17(text: title, style: const TextStyle(color: Colors.black)),
-      );
-    } else if (title is Widget) {
-      return title;
-    } else if (title is String) {
-      return BaseAppText.semiBold17(text: title, style: const TextStyle(color: Colors.black));
-    }
-
-    return null;
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
+    final statusBarBrightness = Platform.isAndroid
+        ? brightness == Brightness.light
+            ? Brightness.dark
+            : Brightness.light
+        : brightness;
+
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
       child: AppBar(
-        title: _makeTitleWidget(context),
+        title: Text(title, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: Colors.black)),
         centerTitle: centerTitle,
         leading: leading ?? const BackButton(),
         bottom: bottom,
         backgroundColor: backgroundColor ?? Colors.white,
         elevation: elevation,
         actions: actions,
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          systemNavigationBarColor: Color(0xFF000000),
+        systemOverlayStyle: SystemUiOverlayStyle(
+          systemNavigationBarColor: const Color(0xFF000000),
           systemNavigationBarDividerColor: null,
           statusBarColor: Colors.transparent,
+          systemNavigationBarIconBrightness: brightness,
+          statusBarIconBrightness: statusBarBrightness,
+          statusBarBrightness: statusBarBrightness,
         ),
       ),
     );

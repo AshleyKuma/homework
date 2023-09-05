@@ -22,7 +22,13 @@ class _IndustryListSceneBuilder extends BaseSceneWidgetBuilder<_IndustryListScen
 
   Widget get industryList => Obx(() {
         return state._getIndustryListController.apiResultState.maybeWhen<Widget>(
-          success: (result) => ListView(children: result.map((e) => _cell(model: e)).toList()),
+          success: (result) => ListView(
+              children: result
+                  .map((e) => BaseWidget.cell(
+                        text: "${e.industryType.desc} (${e.companyCount.toString()})",
+                        onTap: () => state._onGoToCompanyList(e),
+                      ))
+                  .toList()),
           orElse: () => const SizedBox.shrink(),
           error: (_) => Center(
             child: Container(
@@ -36,31 +42,4 @@ class _IndustryListSceneBuilder extends BaseSceneWidgetBuilder<_IndustryListScen
           ),
         );
       });
-
-  Widget _cell({required IndustryModel model}) => GestureDetector(
-        onTap: state._onCompanyList,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
-          child: Container(
-            height: 50,
-            width: double.maxFinite,
-            alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: const BorderRadius.all(Radius.circular(6.0)),
-              boxShadow: [
-                BoxShadow(color: Colors.grey.withOpacity(0.2), blurRadius: 10),
-              ],
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("${model.industryType.desc} (${model.companyCount.toString()})"),
-                const Icon(Icons.navigate_next),
-              ],
-            ),
-          ),
-        ),
-      );
 }

@@ -6,15 +6,23 @@ class _IndustryListSceneBuilder extends BaseSceneWidgetBuilder<_IndustryListScen
   @override
   Widget sceneWidget(BuildContext context) {
     return Scaffold(
-      body: abc,
+      appBar: BaseAppBar(title: "產業別"),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          const SizedBox(height: 15),
+          Expanded(child: industryList),
+          const SizedBox(height: 15),
+          const SafeArea(child: SizedBox.shrink()),
+        ],
+      ),
     );
   }
 
-  Widget get abc => Obx(() {
+  Widget get industryList => Obx(() {
         return state._getIndustryListController.apiResultState.maybeWhen<Widget>(
-          success: (result) {
-            return ListView(children: result.where((e) => e.industryType != IndustryType.unknown).map((e) => content(e)).toList());
-          },
+          success: (result) => ListView(children: result.map((e) => _cell(model: e)).toList()),
           orElse: () => const SizedBox.shrink(),
           error: (_) => Center(
             child: Container(
@@ -29,10 +37,30 @@ class _IndustryListSceneBuilder extends BaseSceneWidgetBuilder<_IndustryListScen
         );
       });
 
-  Widget content(Industry industry) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
-      child: Container(color: Colors.amberAccent, child: Text(industry.industryType.desc)),
-    );
-  }
+  Widget _cell({required IndustryModel model}) => GestureDetector(
+        onTap: state._onCompanyList,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+          child: Container(
+            height: 50,
+            width: double.maxFinite,
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: const BorderRadius.all(Radius.circular(6.0)),
+              boxShadow: [
+                BoxShadow(color: Colors.grey.withOpacity(0.2), blurRadius: 10),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("${model.industryType.desc} (${model.companyCount.toString()})"),
+                const Icon(Icons.navigate_next),
+              ],
+            ),
+          ),
+        ),
+      );
 }

@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
+
 part 'industry.g.dart';
 
 @JsonSerializable(explicitToJson: true)

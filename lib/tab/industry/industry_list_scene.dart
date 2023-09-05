@@ -2,10 +2,12 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:homework/common/widget/base_app_bar.dart';
 import '../../common/base_state.dart';
 import '../../common/constrants.dart';
 import '../../controllers/get_industry_list_controller.dart';
 import '../../network/model/industry.dart';
+import '../../network/model/industry_model.dart';
 
 part 'industry_list_scene_view.dart';
 part 'industry_list_scene_binding.dart';
@@ -45,6 +47,8 @@ class _IndustryListSceneState extends BaseSceneState<IndustryListScene> {
   Future<void> _onTryAgain() async {
     _getIndustryListController.getIndustryList();
   }
+
+  Future<void> _onCompanyList() async {}
 
   @override
   BaseStateWidgetBuilder<_IndustryListSceneState> get widgetBuilder => _IndustryListSceneBuilder(this);

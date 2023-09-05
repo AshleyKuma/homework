@@ -12,5 +12,5 @@ abstract class IndustryService {
   Future<List<Industry>> getIndustryList();
 
   @GET("/opendata/t187ap03_L")
-  Future<List<Industry>> getSubIndustryList();
+  Future<List<Industry>> getCompanyList();
 }

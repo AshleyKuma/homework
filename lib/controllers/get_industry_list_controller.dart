@@ -6,20 +6,25 @@ import 'package:homework/network/model/industry.dart';
 
 import '../common/dio/http_service_module.dart';
 import '../network/api_result_state.dart';
+import '../network/model/industry_model.dart';
 import '../network/service/industry_service.dart';
 
 class GetIndustryListController extends GetxController {
   final service = IndustryService(Get.find<Dio>(tag: HttpServiceModule.tagHomework));
 
-  final rxApiResultState = Rx<ApiResultState<List<Industry>>>(const ApiResultState.idle());
-  ApiResultState<List<Industry>> get apiResultState => rxApiResultState.value;
+  final rxApiResultState = Rx<ApiResultState<List<IndustryModel>>>(const ApiResultState.idle());
+  ApiResultState<List<IndustryModel>> get apiResultState => rxApiResultState.value;
 
   final _rxIndustries = RxList<Industry>(const []);
   List<Industry> get industries => _rxIndustries;
   set industries(List<Industry> value) => _rxIndustries.value = value;
 
-  StreamSubscription<ApiResultState<List<Industry>>> Function(
-    void Function(ApiResultState<List<Industry>>), {
+  final _rxIndustryModel = RxList<IndustryModel>(const []);
+  List<IndustryModel> get industryModel => _rxIndustryModel;
+  set industryModel(List<IndustryModel> value) => _rxIndustryModel.value = value;
+
+  StreamSubscription<ApiResultState<List<IndustryModel>>> Function(
+    void Function(ApiResultState<List<IndustryModel>>), {
     Function? onError,
     void Function()? onDone,
     bool? cancelOnError,
@@ -41,8 +46,9 @@ class GetIndustryListController extends GetxController {
 
     try {
       final response = await service.getIndustryList();
-      _rxIndustries.value = response;
-      rxApiResultState.value = ApiResultState.success(result: response);
+      _rxIndustries.value = response.where((e) => e.industryType != IndustryType.unknown).toList();
+      await processIndustryModel();
+      rxApiResultState.value = ApiResultState.success(result: _rxIndustryModel);
     } catch (err) {
       if (err is DioException && err.type == DioExceptionType.cancel) {
         rxApiResultState.value = const ApiResultState.idle();
@@ -50,5 +56,19 @@ class GetIndustryListController extends GetxController {
       }
       rxApiResultState.value = const ApiResultState.error();
     }
+  }
+
+  Future<void> processIndustryModel() async {
+    final data = <IndustryModel>[];
+    for (var type in IndustryType.values) {
+      if (type == IndustryType.unknown) break;
+      data.add(
+        IndustryModel(
+          industryType: type,
+          companyCount: industries.where((e) => e.industryType == type).toList().length,
+        ),
+      );
+    }
+    _rxIndustryModel.value = data;
   }
 }

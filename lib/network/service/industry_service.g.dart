@@ -48,7 +48,7 @@ class _IndustryService implements IndustryService {
   }
 
   @override
-  Future<List<Industry>> getSubIndustryList() async {
+  Future<List<Industry>> getCompanyList() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};

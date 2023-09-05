@@ -6,11 +6,12 @@ class _IndustryListSceneBuilder extends BaseSceneWidgetBuilder<_IndustryListScen
   @override
   Widget sceneWidget(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(title: "產業別", showBackButton: false),
+      // appBar: BaseAppBar(title: "產業別", showBackButton: false),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          BaseWidget.header(title: "產業別"),
           const SizedBox(height: 15),
           Expanded(child: industryList),
           const SizedBox(height: 15),
@@ -23,6 +24,7 @@ class _IndustryListSceneBuilder extends BaseSceneWidgetBuilder<_IndustryListScen
   Widget get industryList => Obx(() {
         return state._getIndustryListController.apiResultState.maybeWhen<Widget>(
           success: (result) => ListView(
+              padding: EdgeInsets.zero,
               children: result
                   .map((e) => BaseWidget.cell(
                         text: "${e.industryType.desc} (${e.companyCount.toString()})",

@@ -38,7 +38,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
           Visibility(
               visible: showBackButton,
               child: InkWell(
-                onTap: () => Get.back,
+                onTap: () => Navigator.pop(context),
                 child: const Icon(
                   Icons.arrow_back_ios,
                   color: Colors.black,

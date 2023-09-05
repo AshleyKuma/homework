@@ -28,4 +28,16 @@ class BaseWidget {
           ),
         ),
       );
+
+  static Widget header({required String title}) => SafeArea(
+        bottom: false,
+        child: SizedBox(
+          width: double.infinity,
+          height: 50,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20, top: 10),
+            child: Text(title, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+          ),
+        ),
+      );
 }

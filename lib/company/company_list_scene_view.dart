@@ -6,10 +6,11 @@ class _CompanyListSceneBuilder extends BaseSceneWidgetBuilder<_CompanyListSceneS
   @override
   Widget sceneWidget(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(title: state._argIndustryType.desc),
+      appBar: BaseAppBar(title: "產業別"),
       body: ListView(
         children: [
-          const SizedBox(height: 15),
+          BaseWidget.header(title: state._argIndustryType.desc),
+          // const SizedBox(height: 15),
           ...state._companies
               .map((e) => BaseWidget.cell(
                     text: "${e.companyCodename} ${e.companyNameShort}",

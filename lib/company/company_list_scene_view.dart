@@ -13,7 +13,6 @@ class _CompanyListSceneBuilder extends BaseSceneWidgetBuilder<_CompanyListSceneS
             padding: const EdgeInsets.only(left: 15),
             child: BaseWidget.header(title: state._argIndustryType.desc),
           ),
-          // const SizedBox(height: 15),
           ...state._companies
               .map((e) => BaseWidget.cell(
                     text: "${e.companyCodename} ${e.companyNameShort}",

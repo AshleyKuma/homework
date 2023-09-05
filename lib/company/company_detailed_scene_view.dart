@@ -12,7 +12,6 @@ class _CompanyDetailedSceneBuilder extends BaseSceneWidgetBuilder<_CompanyDetail
         children: [
           BaseWidget.header(title: "${state._argIndustry.companyCodename} ${state._argIndustry.companyNameShort}"),
           const SizedBox(height: 15),
-          // BaseWidget.detailedColumn(title: "基本資料", content: state._argIndustry.companyName),
           _companyHeader,
           const SizedBox(height: 15),
           Align(

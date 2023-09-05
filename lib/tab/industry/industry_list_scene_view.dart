@@ -18,7 +18,6 @@ class _IndustryListSceneBuilder extends BaseSceneWidgetBuilder<_IndustryListScen
           const SizedBox(height: 15),
           Expanded(child: industryList),
           const SizedBox(height: 15),
-          const SafeArea(child: SizedBox.shrink()),
         ],
       ),
     );

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
@@ -7,7 +5,7 @@ import 'base_app_text.dart';
 
 const double kToolbarHeight = 56.0;
 
-typedef titleBuilder = Widget Function(BuildContext, Widget Function(String));
+typedef TitleBuilder = Widget Function(BuildContext, Widget Function(String));
 
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   BaseAppBar({
@@ -27,12 +25,14 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget>? actions;
   final PreferredSizeWidget? bottom;
   final bool? centerTitle;
-  final Size preferredSize;
   final Color? backgroundColor;
   final double elevation;
 
+  @override
+  final Size preferredSize;
+
   Widget? _makeTitleWidget(BuildContext context) {
-    if (title is titleBuilder) {
+    if (title is TitleBuilder) {
       return title(
         context,
         (title) => BaseAppText.semiBold17(text: title, style: const TextStyle(color: Colors.black)),
@@ -48,14 +48,8 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final statusBarBrightness = Platform.isAndroid
-        ? brightness == Brightness.light
-            ? Brightness.dark
-            : Brightness.light
-        : brightness;
-
     return MediaQuery(
+      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
       child: AppBar(
         title: _makeTitleWidget(context),
         centerTitle: centerTitle,
@@ -64,16 +58,12 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
         backgroundColor: backgroundColor ?? Colors.white,
         elevation: elevation,
         actions: actions,
-        systemOverlayStyle: SystemUiOverlayStyle(
+        systemOverlayStyle: const SystemUiOverlayStyle(
           systemNavigationBarColor: Color(0xFF000000),
           systemNavigationBarDividerColor: null,
           statusBarColor: Colors.transparent,
-          systemNavigationBarIconBrightness: brightness,
-          statusBarIconBrightness: statusBarBrightness,
-          statusBarBrightness: statusBarBrightness,
         ),
       ),
-      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
     );
   }
 }

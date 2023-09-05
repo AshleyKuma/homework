@@ -12,7 +12,9 @@ class _CompanyDetailedSceneBuilder extends BaseSceneWidgetBuilder<_CompanyDetail
         children: [
           BaseWidget.header(title: "${state._argIndustry.companyCodename} ${state._argIndustry.companyNameShort}"),
           const SizedBox(height: 15),
-          BaseWidget.detailedColumn(title: "基本資料", content: state._argIndustry.companyName),
+          // BaseWidget.detailedColumn(title: "基本資料", content: state._argIndustry.companyName),
+          _companyHeader,
+          const SizedBox(height: 15),
           Align(
             alignment: Alignment.topLeft,
             child: Wrap(
@@ -23,8 +25,8 @@ class _CompanyDetailedSceneBuilder extends BaseSceneWidgetBuilder<_CompanyDetail
                 _wrapWithFixedWidth("董事長", state._argIndustry.chairman),
                 _wrapWithFixedWidth("總經理", state._argIndustry.ceo),
                 _wrapWithFixedWidth("產業類別", state._argIndustry.industryType.desc),
-                _wrapWithFixedWidth("公司成立日期", state._argIndustry.establishDate),
-                _wrapWithFixedWidth("上市日期", state._argIndustry.releaseDate),
+                _wrapWithFixedWidth("公司成立日期", DateTime.parse(state._argIndustry.establishDate).format(DateTimeFormat.dateFormatWithSlash)),
+                _wrapWithFixedWidth("上市日期", DateTime.parse(state._argIndustry.listingDate).format(DateTimeFormat.dateFormatWithSlash)),
               ],
             ),
           ),
@@ -47,10 +49,12 @@ class _CompanyDetailedSceneBuilder extends BaseSceneWidgetBuilder<_CompanyDetail
           const SizedBox(height: 5),
           const Divider(height: 1, color: Colors.grey),
           const SizedBox(height: 20),
-          BaseWidget.detailedColumn(title: "實收資本額(元)", content: state._argIndustry.capitalAmount),
+          BaseWidget.detailedColumn(title: "實收資本額(元)", content: state._argIndustry.capitalAmount.numberFormat, suffix: "元"),
           BaseWidget.detailedColumn(title: "普通股每股面額", content: state._argIndustry.commonShareUnit),
-          BaseWidget.detailedColumn(title: "已發行普通股數或TDR原股發行股數", content: state._argIndustry.issuedShare),
-          BaseWidget.detailedColumn(title: "特別股", content: state._argIndustry.specialShare),
+
+          /// Spec 上有註明此欄位的計算公式，但從 api 拉回來已經包含此欄位，所以不另做計算。
+          BaseWidget.detailedColumn(title: "已發行普通股數或TDR原股發行股數", content: state._argIndustry.issuedShare.numberFormat, suffix: "股"),
+          BaseWidget.detailedColumn(title: "特別股", content: state._argIndustry.specialShare.numberFormat, suffix: "股"),
           const SafeArea(child: SizedBox.shrink()),
         ],
       ),
@@ -61,4 +65,30 @@ class _CompanyDetailedSceneBuilder extends BaseSceneWidgetBuilder<_CompanyDetail
         width: MediaQuery.of(state.context).size.width / 3 - 10,
         child: BaseWidget.detailedColumn(title: title, content: content),
       );
+
+  Widget get _companyHeader {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text("基本資料", style: TextStyle(color: Colors.grey, fontSize: 15)),
+        const SizedBox(height: 5),
+        GestureDetector(
+          onTap: state._argIndustry.clickable ? state._onVisitWebsite : null,
+          child: Row(
+            children: [
+              Text(state._argIndustry.companyName,
+                  style: TextStyle(
+                    color: state._argIndustry.clickable ? Colors.blue : Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                  )),
+              const SizedBox(width: 10),
+              const Icon(Icons.public),
+            ],
+          ),
+        ),
+        const SizedBox(height: 20),
+      ],
+    );
+  }
 }

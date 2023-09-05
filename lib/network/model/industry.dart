@@ -1,3 +1,4 @@
+import 'package:homework/common/extension/extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 
@@ -87,6 +88,8 @@ class Industry extends Equatable {
 
   @JsonKey(name: "已發行普通股數或TDR原股發行股數")
   final String issuedShare;
+
+  bool get clickable => website.isNotEmpty;
 
   factory Industry.fromJson(Map<String, dynamic> srcJson) => _$IndustryFromJson(srcJson);
 

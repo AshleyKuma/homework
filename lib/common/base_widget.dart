@@ -45,18 +45,15 @@ class BaseWidget {
   static Widget detailedColumn({
     required String title,
     required String? content,
+    String suffix = "",
   }) =>
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(title, style: const TextStyle(color: Colors.grey, fontSize: 15)),
           const SizedBox(height: 5),
-          Text(content ?? "-", style: const TextStyle(color: Colors.black, fontSize: 15)),
+          Text(content != null ? "$content $suffix" : "-", style: const TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w500)),
           const SizedBox(height: 20),
         ],
       );
-}
-
-extension StringExt on String {
-  String get moneyFormat => "$this money";
 }

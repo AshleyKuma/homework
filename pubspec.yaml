@@ -43,8 +43,9 @@ dependencies:
   json_annotation: ^4.7.0
   retrofit: ^4.0.1
   equatable: ^2.0.5
-
+  intl: ^0.18.1
   freezed: ^2.3.3
+  money_formatter: ^0.0.5
 
 dev_dependencies:
 

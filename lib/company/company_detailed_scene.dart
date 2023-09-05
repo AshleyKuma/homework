@@ -2,8 +2,11 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:homework/common/extension/extension.dart';
 import 'package:homework/common/widget/base_app_bar.dart';
 import 'package:homework/common/widget/modal_presenter.dart';
+import 'package:intl/intl.dart';
+import 'package:money_formatter/money_formatter.dart';
 import '../../common/base_state.dart';
 import '../../common/base_widget.dart';
 import '../../controllers/get_company_list_controller.dart';
@@ -29,6 +32,10 @@ class CompanyDetailedScene extends StatefulWidget {
 
 class _CompanyDetailedSceneState extends BaseSceneState<CompanyDetailedScene> {
   final _argIndustry = Get.arguments[CompanyDetailedScene.ARG_INDUSTRY] as Industry;
+
+  Future<void> _onVisitWebsite() async {
+    print(_argIndustry.website);
+  }
 
   @override
   BaseStateWidgetBuilder<_CompanyDetailedSceneState> get widgetBuilder => _CompanyDetailedSceneBuilder(this);

@@ -1,31 +1,26 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
+import 'package:get/get.dart';
 
 const double kToolbarHeight = 56.0;
 
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   BaseAppBar({
     Key? key,
-    this.title,
-    this.leading,
+    required this.title,
+    this.showBackButton = true,
     this.actions,
     this.bottom,
-    this.centerTitle = true,
-    this.backgroundColor,
-    this.elevation = 1,
   })  : preferredSize = Size.fromHeight(kToolbarHeight + (bottom?.preferredSize.height ?? 0.0)),
         super(key: key);
 
-  final dynamic title;
-  final Widget? leading;
+  final String title;
+  final bool showBackButton;
   final List<Widget>? actions;
   final PreferredSizeWidget? bottom;
-  final bool? centerTitle;
   @override
   final Size preferredSize;
-  final Color? backgroundColor;
-  final double elevation;
 
   @override
   Widget build(BuildContext context) {
@@ -39,12 +34,29 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
       child: AppBar(
-        title: Text(title, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: Colors.black)),
-        centerTitle: centerTitle,
-        leading: leading ?? const BackButton(),
+        title: Row(children: [
+          Visibility(
+              visible: showBackButton,
+              child: InkWell(
+                onTap: () => Get.back,
+                child: const Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.black,
+                ),
+              )),
+          const SizedBox(width: 10),
+          Text(title,
+              style: const TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+              )),
+        ]),
+        centerTitle: false,
         bottom: bottom,
-        backgroundColor: backgroundColor ?? Colors.white,
-        elevation: elevation,
+        leadingWidth: 0,
+        backgroundColor: Colors.white,
+        elevation: 1,
         actions: actions,
         systemOverlayStyle: SystemUiOverlayStyle(
           systemNavigationBarColor: const Color(0xFF000000),

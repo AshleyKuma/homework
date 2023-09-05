@@ -6,30 +6,20 @@ class _CompanyListSceneBuilder extends BaseSceneWidgetBuilder<_CompanyListSceneS
   @override
   Widget sceneWidget(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(title: "123123"),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
+      appBar: BaseAppBar(title: state._argIndustryType.desc),
+      body: ListView(
         children: [
           const SizedBox(height: 15),
-          Expanded(child: industryList),
+          ...state._companies
+              .map((e) => BaseWidget.cell(
+                    text: "${e.companyCodename} ${e.companyNameShort}",
+                    onTap: () => state._onGoToCompanyDetail(e),
+                  ))
+              .toList(),
           const SizedBox(height: 15),
           const SafeArea(child: SizedBox.shrink()),
         ],
       ),
     );
   }
-
-  Widget get industryList => Obx(() {
-        return state._getCompanyListController.apiResultState.maybeWhen<Widget>(
-          success: (result) => ListView(
-              children: result
-                  .map((e) => BaseWidget.cell(
-                        text: "123123",
-                        onTap: null,
-                      ))
-                  .toList()),
-          orElse: () => const SizedBox.shrink(),
-        );
-      });
 }

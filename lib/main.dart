@@ -11,12 +11,11 @@ import 'controllers/get_company_list_controller.dart';
 import 'controllers/get_industry_list_controller.dart';
 import 'greeting/greeting_scene.dart';
 import 'launch/launch_scene.dart';
+import 'main_binding.dart';
 
 void main() {
   runZonedGuarded(() async {
     await HttpServiceModule().bind();
-    Get.put(GetIndustryListController());
-    Get.put(GetCompanyListController());
     runApp(const MyApp());
   }, (error, stackTrace) {});
 }
@@ -34,6 +33,7 @@ class MyApp extends StatelessWidget {
           GetPage(name: FavoriteListScene.ROUTE_NAME, page: () => const FavoriteListScene()),
           GetPage(name: CompanyListScene.ROUTE_NAME, page: () => const CompanyListScene()),
         ],
+        initialBinding: MainBinding(),
         debugShowCheckedModeBanner: false,
         builder: EasyLoading.init(),
         home: const GreetingScene());

@@ -6,7 +6,7 @@ class _IndustryListSceneBuilder extends BaseSceneWidgetBuilder<_IndustryListScen
   @override
   Widget sceneWidget(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(title: "產業別"),
+      appBar: BaseAppBar(title: "產業別", showBackButton: false),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,

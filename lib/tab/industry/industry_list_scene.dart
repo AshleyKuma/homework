@@ -67,7 +67,10 @@ class _IndustryListSceneState extends BaseSceneState<IndustryListScene> {
       ModalPresenter.presentAlert(title: "Oops", content: "此產業別沒有上市公司資料");
       return;
     }
-    Get.toNamed(CompanyListScene.ROUTE_NAME);
+    Get.toNamed(CompanyListScene.ROUTE_NAME,
+        arguments: CompanyListScene.genArgs(
+          type: model.industryType,
+        ));
   }
 
   @override

@@ -18,6 +18,8 @@ class GetCompanyListController extends GetxController {
   List<Industry> get companies => _rxCompanies;
   set companies(List<Industry> value) => _rxCompanies.value = value;
 
+  List<Industry> getCompaniesByIndustryType(IndustryType type) => companies.where((e) => e.industryType == type).toList();
+
   StreamSubscription<ApiResultState<List<Industry>>> Function(
     void Function(ApiResultState<List<Industry>>), {
     Function? onError,

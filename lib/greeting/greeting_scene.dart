@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:homework/launch/launch_scene.dart';
 import '../common/base_state.dart';
+import '../flutter_gen/assets.gen.dart';
 
 class GreetingScene extends StatefulWidget {
   const GreetingScene({super.key});
@@ -28,6 +29,7 @@ class _GreetingSceneBuilder extends BaseSceneWidgetBuilder<_GreetingSceneState> 
 
   @override
   Widget sceneWidget(BuildContext context) => Scaffold(
-        body: Center(child: Text("Hi, ${DateTime.now()}")),
+        backgroundColor: Colors.white,
+        body: Center(child: Assets.launchLogo.image(width: 256, height: 125)),
       );
 }

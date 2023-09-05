@@ -123,6 +123,8 @@ enum IndustryType {
   food,
   @JsonValue("03")
   plastic,
+  @JsonValue("17")
+  finance,
   @JsonValue(null)
   unknown;
 
@@ -135,6 +137,8 @@ enum IndustryType {
         return "食物工業";
       case IndustryType.plastic:
         return "塑膠工業";
+      case IndustryType.finance:
+        return "金融業";
       default:
         return "";
     }

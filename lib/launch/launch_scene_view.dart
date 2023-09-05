@@ -5,32 +5,23 @@ class _LaunchSceneBuilder extends BaseSceneWidgetBuilder<_LaunchSceneState> {
 
   @override
   Widget sceneWidget(BuildContext context) {
-    return Scaffold(
-      body: Obx(() {
-        return state._getIndustryListController.apiResultState.maybeWhen<Widget>(
-          success: (result) {
-            return ListView(children: result.map((e) => content(e)).toList());
-          },
-          orElse: () => const SizedBox.shrink(),
-          error: (_) => Center(
-            child: Container(
-                width: 100,
-                height: 50,
-                color: Colors.grey,
-                child: GestureDetector(
-                  onTap: state._onTryAgain,
-                  child: const Text("再試一次"),
-                )),
+    return Obx(() => Scaffold(
+          bottomNavigationBar: BottomNavigationBar(
+            items: TabBarItem.values.map((item) => BottomNavigationBarItem(label: item.title, icon: Icon(item.icon))).toList(),
+            showUnselectedLabels: true,
+            currentIndex: state.selectedTabBar.value.index,
+            onTap: (index) => state.switchTab(TabBarItem.values[index]),
+            unselectedItemColor: Colors.grey,
+            selectedItemColor: Colors.blue,
+            type: BottomNavigationBarType.fixed,
           ),
-        );
-      }),
-    );
-  }
-
-  Widget content(Industry industry) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
-      child: Container(color: Colors.amberAccent, child: Text(industry.companyName)),
-    );
+          body: IndexedStack(
+            index: state.selectedTabBar.value.index,
+            children: [
+              IndustryListScene(),
+              FavoriteListScene(),
+            ],
+          ),
+        ));
   }
 }

@@ -46,6 +46,8 @@ dependencies:
   intl: ^0.18.1
   freezed: ^2.3.3
   money_formatter: ^0.0.5
+  url_launcher: ^6.1.5
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
 

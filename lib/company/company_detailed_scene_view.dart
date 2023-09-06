@@ -6,7 +6,23 @@ class _CompanyDetailedSceneBuilder extends BaseSceneWidgetBuilder<_CompanyDetail
   @override
   Widget sceneWidget(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(title: state._argIndustry.industryType.desc),
+      appBar: BaseAppBar(
+        title: state._argIndustry.industryType.desc,
+        actions: [
+          InkWell(
+            onTap: state._onAddToFavorite,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Obx(() {
+                return Icon(
+                  state._favoriteManager.isAlreadyFavorite(state._argIndustry.companyCodename) ? Icons.star : Icons.star_border,
+                  color: Colors.black,
+                );
+              }),
+            ),
+          )
+        ],
+      ),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         children: [

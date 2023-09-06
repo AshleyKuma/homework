@@ -21,11 +21,11 @@ class ModalPresenter {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(title),
+                      Text(title, style: const TextStyle(fontSize: 17)),
                       const SizedBox(height: 5),
                       Container(
                         constraints: const BoxConstraints(minHeight: 40.0),
-                        child: Text(content, style: const TextStyle(fontSize: 17)),
+                        child: Text(content, style: const TextStyle(fontSize: 15)),
                       ),
                       const SizedBox(height: 15),
                       GestureDetector(

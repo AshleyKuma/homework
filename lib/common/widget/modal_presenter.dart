@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+enum DialogOption {
+  positive,
+  negative,
+}
+
 class ModalPresenter {
   static Future presentAlert({
     required String title,
@@ -112,5 +117,3 @@ class ModalPresenter {
 
   ModalPresenter._();
 }
-
-enum DialogOption { positive, negative }

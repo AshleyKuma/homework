@@ -1,4 +1,3 @@
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,9 +11,6 @@ import '../../network/model/industry_display_model.dart';
 
 part 'industry_list_scene_view.dart';
 
-const String loadingWording = "讀取資料中...";
-const String fetchFailedWording = "資料讀取失敗，請稍後再試";
-
 class IndustryListScene extends StatefulWidget {
   const IndustryListScene({super.key});
 
@@ -26,11 +22,6 @@ class IndustryListScene extends StatefulWidget {
 
 class _IndustryListSceneState extends BaseSceneState<IndustryListScene> {
   final _getCompanyListController = Get.find<GetCompanyListController>();
-
-  Future<void> _onTryAgain() async {
-    // _getIndustryListController.getIndustryList();
-    _getCompanyListController.getCompanyList();
-  }
 
   Future<void> _onGoToCompanyList(IndustryDisplayModel? model) async {
     if (model == null) {

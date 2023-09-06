@@ -8,7 +8,6 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   BaseAppBar({
     Key? key,
     required this.title,
-    this.showBackButton = true,
     this.actions,
     this.centerTitle,
   })  : preferredSize = const Size.fromHeight(kToolbarHeight),
@@ -16,7 +15,6 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   final String title;
   final Widget? centerTitle;
-  final bool showBackButton;
   final List<Widget>? actions;
   @override
   final Size preferredSize;
@@ -34,15 +32,13 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
       data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
       child: AppBar(
         title: Row(children: [
-          Visibility(
-              visible: showBackButton,
-              child: InkWell(
-                onTap: () => Navigator.pop(context),
-                child: const Icon(
-                  Icons.arrow_back_ios,
-                  color: Colors.black,
-                ),
-              )),
+          InkWell(
+            onTap: () => Navigator.pop(context),
+            child: const Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
+          ),
           Text(title,
               style: const TextStyle(
                 fontSize: 14,

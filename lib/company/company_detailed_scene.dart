@@ -1,10 +1,9 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:homework/common/extension/extension.dart';
 import 'package:homework/common/widget/base_app_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../../common/base_state.dart';
 import '../common/favorite_manager.dart';
 import '../common/widget/base_widget.dart';
@@ -37,8 +36,8 @@ class _CompanyDetailedSceneState extends BaseSceneState<CompanyDetailedScene> {
   set remark(String value) => _rxRemark.value = value;
 
   Future<void> _onVisitWebsite() async {
-    final String filePath = _argIndustry.website;
-    final Uri uri = Uri.file(filePath);
+    final filePath = _argIndustry.website;
+    final uri = Uri.parse(filePath);
     if (!await launchUrl(uri)) {
       ModalPresenter.presentAlert(title: "Oops", content: "無法打開 $filePath");
     }

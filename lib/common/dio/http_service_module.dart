@@ -5,7 +5,6 @@ class HttpServiceModule extends Object {
   static const String tagHomework = "TAG_HOMEWORK";
 
   Future<void> bind() async {
-    /// dio
     Get.lazyPut(() {
       Dio epicLifeDio = Dio(BaseOptions(
         connectTimeout: const Duration(seconds: 10),

@@ -10,6 +10,9 @@ import '../tab/industry/industry_list_scene.dart';
 
 part 'launch_scene_view.dart';
 
+const String loadingWording = "讀取資料中...";
+const String fetchFailedWording = "資料讀取失敗，請稍後再試";
+
 class LaunchScene extends StatefulWidget {
   static const ROUTE_NAME = "/LaunchScene";
 

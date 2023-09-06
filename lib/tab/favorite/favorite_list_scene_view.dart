@@ -6,7 +6,6 @@ class _FavoriteListSceneBuilder extends BaseSceneWidgetBuilder<_FavoriteListScen
   @override
   Widget sceneWidget(BuildContext context) {
     return Scaffold(
-      // appBar: BaseAppBar(title: "追蹤", showBackButton: false),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,

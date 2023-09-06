@@ -49,6 +49,7 @@ dependencies:
   url_launcher: ^6.1.5
   shared_preferences: ^2.0.15
   collection: ^1.16.0
+  sticky_headers: ^0.3.0+2
 
 dev_dependencies:
 

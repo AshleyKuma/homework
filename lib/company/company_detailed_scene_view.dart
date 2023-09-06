@@ -15,7 +15,7 @@ class _CompanyDetailedSceneBuilder extends BaseSceneWidgetBuilder<_CompanyDetail
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Obx(() {
                 return Icon(
-                  state._favoriteManager.isAlreadyFavorite(state._argIndustry.companyCodename) ? Icons.star : Icons.star_border,
+                  state._favoriteManager.isAlreadyAddedToFavorite(state._argIndustry.companyCodename) ? Icons.star : Icons.star_border,
                   color: Colors.black,
                 );
               }),
@@ -23,7 +23,22 @@ class _CompanyDetailedSceneBuilder extends BaseSceneWidgetBuilder<_CompanyDetail
           )
         ],
       ),
-      body: ListView(
+      body: abc,
+    );
+  }
+
+  Widget get abc => NotificationListener(
+        onNotification: (t) {
+          if (t is ScrollEndNotification) {
+            print(state._scrollController.position.pixels);
+          }
+          return true;
+        },
+        child: _body,
+      );
+
+  Widget get _body => ListView(
+        controller: state._scrollController,
         padding: const EdgeInsets.symmetric(horizontal: 15),
         children: [
           BaseWidget.header(title: "${state._argIndustry.companyCodename} ${state._argIndustry.companyNameShort}"),
@@ -70,11 +85,10 @@ class _CompanyDetailedSceneBuilder extends BaseSceneWidgetBuilder<_CompanyDetail
           /// Spec 上有註明此欄位的計算公式，但從 api 拉回來已經包含此欄位，所以不另做計算。
           BaseWidget.detailedColumn(title: "已發行普通股數或TDR原股發行股數", content: state._argIndustry.issuedShare.numberFormat, suffix: "股"),
           BaseWidget.detailedColumn(title: "特別股", content: state._argIndustry.specialShare.numberFormat, suffix: "股"),
+          Container(color: Colors.grey, height: 500),
           const SafeArea(child: SizedBox.shrink()),
         ],
-      ),
-    );
-  }
+      );
 
   Widget _wrapWithFixedWidth(String title, String content) => SizedBox(
         width: MediaQuery.of(state.context).size.width / 3 - 10,

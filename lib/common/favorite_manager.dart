@@ -30,5 +30,5 @@ class FavoriteIndustryManager extends GetxService {
     _rxFavorites.refresh();
   }
 
-  bool isAlreadyFavorite(String codename) => _rxFavorites.contains(codename);
+  bool isAlreadyAddedToFavorite(String codename) => _rxFavorites.contains(codename);
 }

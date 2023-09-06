@@ -8,8 +8,6 @@ import 'package:homework/tab/favorite/favorite_list_scene.dart';
 import 'package:homework/tab/industry/industry_list_scene.dart';
 import 'common/dio/http_service_module.dart';
 import 'company/company_detailed_scene.dart';
-import 'controllers/get_company_list_controller.dart';
-import 'controllers/get_industry_list_controller.dart';
 import 'greeting/greeting_scene.dart';
 import 'launch/launch_scene.dart';
 import 'main_binding.dart';
@@ -27,17 +25,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-        title: 'Fugle-Homework',
-        getPages: [
-          GetPage(name: LaunchScene.ROUTE_NAME, page: () => const LaunchScene()),
-          GetPage(name: IndustryListScene.ROUTE_NAME, page: () => const IndustryListScene()),
-          GetPage(name: FavoriteListScene.ROUTE_NAME, page: () => const FavoriteListScene()),
-          GetPage(name: CompanyListScene.ROUTE_NAME, page: () => const CompanyListScene()),
-          GetPage(name: CompanyDetailedScene.ROUTE_NAME, page: () => const CompanyDetailedScene()),
-        ],
-        initialBinding: MainBinding(),
-        debugShowCheckedModeBanner: false,
-        builder: EasyLoading.init(),
-        home: const GreetingScene());
+      title: 'Fugle-Homework',
+      getPages: [
+        GetPage(name: LaunchScene.ROUTE_NAME, page: () => const LaunchScene()),
+        GetPage(name: IndustryListScene.ROUTE_NAME, page: () => const IndustryListScene()),
+        GetPage(name: FavoriteListScene.ROUTE_NAME, page: () => const FavoriteListScene()),
+        GetPage(name: CompanyListScene.ROUTE_NAME, page: () => const CompanyListScene()),
+        GetPage(name: CompanyDetailedScene.ROUTE_NAME, page: () => const CompanyDetailedScene()),
+      ],
+      initialBinding: MainBinding(),
+      debugShowCheckedModeBanner: false,
+      builder: EasyLoading.init(),
+      home: const GreetingScene(),
+    );
   }
 }

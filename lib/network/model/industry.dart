@@ -1,4 +1,3 @@
-import 'package:homework/common/extension/extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 

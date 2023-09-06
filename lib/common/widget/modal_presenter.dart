@@ -5,7 +5,7 @@ class ModalPresenter {
   static Future presentAlert({
     required String title,
     required String content,
-    String confirmText = "確定",
+    String confirmText = "確認",
     bool barrierDismissible = false,
   }) async {
     return Get.dialog(
@@ -83,7 +83,7 @@ class ModalPresenter {
                             },
                             child: Container(
                               height: 44,
-                              color: Colors.grey,
+                              color: const Color(0xFFF0F0F0),
                               child: Center(child: Text(negativeText)),
                             )),
                       ),

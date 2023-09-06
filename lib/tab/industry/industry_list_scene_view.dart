@@ -16,34 +16,33 @@ class _IndustryListSceneBuilder extends BaseSceneWidgetBuilder<_IndustryListScen
             child: BaseWidget.header(title: "產業別"),
           ),
           const SizedBox(height: 15),
-          Expanded(child: industryList),
+          Expanded(child: _list),
           const SizedBox(height: 15),
         ],
       ),
     );
   }
 
-  Widget get industryList => Obx(() {
-        return state._getIndustryListController.apiResultState.maybeWhen<Widget>(
-          success: (result) => ListView(
-              padding: EdgeInsets.zero,
-              children: result
-                  .map((e) => BaseWidget.cell(
-                        text: "${e.industryType.desc} (${e.companyCount.toString()})",
-                        onTap: () => state._onGoToCompanyList(e),
-                      ))
-                  .toList()),
-          orElse: () => const SizedBox.shrink(),
-          error: (_) => Center(
-            child: Container(
-                width: 100,
-                height: 50,
-                color: Colors.grey,
-                child: GestureDetector(
-                  onTap: state._onTryAgain,
-                  child: const Center(child: Text("再試一次")),
-                )),
-          ),
+  Widget get _list => Obx(() {
+        return state._getCompanyListController.apiResultState.maybeWhen(
+          loading: (_) => const SizedBox.shrink(),
+          success: (_) {
+            final data = state._getCompanyListController.companiesForDisplay;
+            if (data.isEmpty) {
+              return BaseWidget.emptyView;
+            }
+            final industryTypeList = IndustryType.values.where((e) => e != IndustryType.unknown).map((type) {
+              final currentType = data.firstWhereOrNull((e) => e.industryType == type);
+              int currentTypeCount = currentType == null ? 0 : currentType.companyCount;
+              return BaseWidget.cell(
+                text: "${type.desc} ($currentTypeCount)",
+                onTap: () => state._onGoToCompanyList(currentType),
+              );
+            }).toList();
+            return ListView(padding: EdgeInsets.zero, children: industryTypeList);
+          },
+          orElse: () => BaseWidget.emptyView,
+          error: (_) => BaseWidget.emptyView,
         );
       });
 }

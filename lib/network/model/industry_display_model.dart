@@ -3,11 +3,11 @@ import 'package:json_annotation/json_annotation.dart';
 
 import 'industry.dart';
 
-part 'industry_model.g.dart';
+part 'industry_display_model.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class IndustryModel extends Equatable {
-  const IndustryModel({
+class IndustryDisplayModel extends Equatable {
+  const IndustryDisplayModel({
     this.industryType = IndustryType.unknown,
     this.companyCount = 0,
   });
@@ -15,9 +15,9 @@ class IndustryModel extends Equatable {
   final IndustryType industryType;
   final int companyCount;
 
-  factory IndustryModel.fromJson(Map<String, dynamic> srcJson) => _$IndustryModelFromJson(srcJson);
+  factory IndustryDisplayModel.fromJson(Map<String, dynamic> srcJson) => _$IndustryDisplayModelFromJson(srcJson);
 
-  Map<String, dynamic> toJson() => _$IndustryModelToJson(this);
+  Map<String, dynamic> toJson() => _$IndustryDisplayModelToJson(this);
 
   @override
   List<Object?> get props => [

@@ -16,8 +16,13 @@ class _GreetingSceneState extends BaseSceneState<GreetingScene> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Get.offAllNamed(LaunchScene.ROUTE_NAME);
+      _offToLaunch();
     });
+  }
+
+  void _offToLaunch() async {
+    await Future.delayed(const Duration(seconds: 1));
+    Get.offAllNamed(LaunchScene.ROUTE_NAME);
   }
 
   @override

@@ -1,7 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
-import 'package:get/get.dart';
 
 const double kToolbarHeight = 56.0;
 

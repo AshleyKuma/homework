@@ -37,7 +37,7 @@ class _CompanyDetailedSceneState extends BaseSceneState<CompanyDetailedScene> {
     }
   }
 
-  void _onAddToFavorite() async {
+  Future<void> _onAddToFavorite() async {
     String codename = _argIndustry.companyCodename;
     if (_favoriteManager.isAlreadyFavorite(codename)) {
       final option = await ModalPresenter.presentDialog(title: "從追蹤列表移除", content: "是否將 $codename ${_argIndustry.companyNameShort} 從追蹤列表移除？");

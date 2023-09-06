@@ -1,20 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'industry_model.dart';
+part of 'industry_display_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-IndustryModel _$IndustryModelFromJson(Map<String, dynamic> json) =>
-    IndustryModel(
+IndustryDisplayModel _$IndustryDisplayModelFromJson(
+        Map<String, dynamic> json) =>
+    IndustryDisplayModel(
       industryType:
           $enumDecodeNullable(_$IndustryTypeEnumMap, json['industryType']) ??
               IndustryType.unknown,
       companyCount: json['companyCount'] as int? ?? 0,
     );
 
-Map<String, dynamic> _$IndustryModelToJson(IndustryModel instance) =>
+Map<String, dynamic> _$IndustryDisplayModelToJson(
+        IndustryDisplayModel instance) =>
     <String, dynamic>{
       'industryType': instance.industryType.toJson(),
       'companyCount': instance.companyCount,

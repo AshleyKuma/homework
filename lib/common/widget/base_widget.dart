@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BaseWidget {
@@ -55,5 +54,17 @@ class BaseWidget {
           Text(content != null ? "$content $suffix" : "-", style: const TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w500)),
           const SizedBox(height: 20),
         ],
+      );
+
+  static Widget get emptyView => const Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.find_in_page, color: Colors.grey, size: 50),
+            SizedBox(height: 20),
+            Text("查無資料", style: TextStyle(color: Colors.grey)),
+          ],
+        ),
       );
 }

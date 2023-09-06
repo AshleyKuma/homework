@@ -4,7 +4,7 @@ import 'package:homework/common/extension/extension.dart';
 import 'package:homework/common/widget/base_app_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../common/base_state.dart';
-import '../common/favorite_industry_manager.dart';
+import '../common/favorite_manager.dart';
 import '../common/widget/base_widget.dart';
 import '../common/widget/modal_presenter.dart';
 import '../network/model/industry.dart';

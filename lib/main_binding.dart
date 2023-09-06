@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'common/favorite_industry_manager.dart';
+import 'common/favorite_manager.dart';
 import 'controllers/get_company_list_controller.dart';
 import 'controllers/get_industry_list_controller.dart';
 

@@ -7,10 +7,6 @@ class FavoriteIndustryManager {
   static const String PREF_KEY_FAVORITE_LIST = "PREF_KEY_FAVORITE_LIST";
 
   final _rxFavorites = RxList<String>(const []);
-  List<String> get favorites => _rxFavorites;
-  set favorites(List<String> value) {
-    _rxFavorites.value = value;
-  }
 
   void addToFavorite(String codename) async {
     _rxFavorites.add(codename);

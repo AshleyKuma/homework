@@ -2,7 +2,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:homework/common/favorite_industry_manager.dart';
+import 'package:homework/common/favorite_manager.dart';
 import 'package:homework/common/widget/base_app_bar.dart';
 import 'package:homework/common/widget/modal_presenter.dart';
 import 'package:homework/company/company_list_scene.dart';

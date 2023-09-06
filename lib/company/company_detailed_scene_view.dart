@@ -11,7 +11,7 @@ class _CompanyDetailedSceneBuilder extends BaseSceneWidgetBuilder<_CompanyDetail
         centerTitle: Obx(() => Text(state._rxRemark.value, style: const TextStyle(color: Colors.black))),
         actions: [
           InkWell(
-            onTap: state._onAddToFavorite,
+            onTap: state._onFavoriteTapped,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Obx(() {
@@ -27,7 +27,7 @@ class _CompanyDetailedSceneBuilder extends BaseSceneWidgetBuilder<_CompanyDetail
       body: NotificationListener(
         onNotification: (t) {
           if (state._scrollController.position.pixels > 0) {
-            state._rxRemark.value = state._codeNameWithCompanyName;
+            state._rxRemark.value = state._argIndustry.infoInShort;
           } else {
             state._rxRemark.value = "";
           }
@@ -43,7 +43,7 @@ class _CompanyDetailedSceneBuilder extends BaseSceneWidgetBuilder<_CompanyDetail
         controller: state._scrollController,
         padding: const EdgeInsets.symmetric(horizontal: 15),
         children: [
-          BaseWidget.header(title: state._codeNameWithCompanyName),
+          BaseWidget.header(title: state._argIndustry.infoInShort),
           const SizedBox(height: 15),
           _companyHeader,
           const SizedBox(height: 15),

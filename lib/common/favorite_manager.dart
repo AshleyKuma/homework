@@ -24,7 +24,7 @@ class FavoriteIndustryManager extends GetxService {
     _rxFavorites.refresh();
   }
 
-  void removeFavorite(String codename) async {
+  void removeFromFavorite(String codename) async {
     _rxFavorites.remove(codename);
     await pref.setStringList(PREF_KEY_FAVORITE_LIST, _rxFavorites);
     _rxFavorites.refresh();

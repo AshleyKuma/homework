@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:homework/common/extension/extension.dart';
 import 'package:homework/common/widget/base_app_bar.dart';
-import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../common/base_state.dart';
 import '../common/favorite_manager.dart';
@@ -37,8 +36,6 @@ class _CompanyDetailedSceneState extends BaseSceneState<CompanyDetailedScene> {
   String get remark => _rxRemark.value;
   set remark(String value) => _rxRemark.value = value;
 
-  String get _codeNameWithCompanyName => "${_argIndustry.companyCodename} ${_argIndustry.companyNameShort}";
-
   Future<void> _onVisitWebsite() async {
     final String filePath = _argIndustry.website;
     final Uri uri = Uri.file(filePath);
@@ -47,21 +44,21 @@ class _CompanyDetailedSceneState extends BaseSceneState<CompanyDetailedScene> {
     }
   }
 
-  Future<void> _onAddToFavorite() async {
+  Future<void> _onFavoriteTapped() async {
     String codename = _argIndustry.companyCodename;
     if (_favoriteManager.isAlreadyAddedToFavorite(codename)) {
       final option = await ModalPresenter.presentDialog(
         title: "從追蹤列表移除",
-        content: "是否將 $codename ${_argIndustry.companyNameShort} 從追蹤列表移除？",
+        content: "是否將 ${_argIndustry.infoInShort} 從追蹤列表移除？",
         positiveText: "移除",
       );
       if (option == DialogOption.positive) {
-        _favoriteManager.removeFavorite(codename);
+        _favoriteManager.removeFromFavorite(codename);
       }
     } else {
       final option = await ModalPresenter.presentDialog(
         title: "加入追蹤列表",
-        content: "是否將 $codename ${_argIndustry.companyNameShort} 加入追蹤列表內？",
+        content: "是否將 ${_argIndustry.infoInShort} 加入追蹤列表內？",
         positiveText: "加入",
       );
       if (option == DialogOption.positive) {

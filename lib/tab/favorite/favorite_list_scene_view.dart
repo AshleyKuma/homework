@@ -30,10 +30,25 @@ class _FavoriteListSceneBuilder extends BaseSceneWidgetBuilder<_FavoriteListScen
             final favoriteList = state._favoriteManager.favorites.map((codename) {
               final company = state._getCompanyListController.companies.firstWhereOrNull((e) => e.companyCodename == codename);
               if (company == null) return const SizedBox.shrink();
-              return BaseWidget.cell(
-                text: "${company.companyCodename} ${company.companyNameShort}",
-                onTap: () => state._onGoToCompanyDetail(company),
+
+              final cell = SwipeActionCell(
+                key: ObjectKey(company.infoInShort),
+                trailingActions: <SwipeAction>[
+                  SwipeAction(
+                    title: "移除",
+                    onTap: (CompletionHandler handler) async {
+                      final deleted = await state._onSwiftLeft(company);
+                      deleted ? await handler(true) : await handler(false);
+                    },
+                    color: Colors.grey,
+                  )
+                ],
+                child: BaseWidget.cell(
+                  text: "${company.companyCodename} ${company.companyNameShort}",
+                  onTap: () => state._onGoToCompanyDetail(company),
+                ),
               );
+              return cell;
             }).toList();
             if (favoriteList.isEmpty) {
               return BaseWidget.emptyView;

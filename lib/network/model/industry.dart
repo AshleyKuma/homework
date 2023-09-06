@@ -90,6 +90,8 @@ class Industry extends Equatable {
 
   bool get clickable => website.isNotEmpty;
 
+  String get infoInShort => "$companyCodename $companyNameShort";
+
   factory Industry.fromJson(Map<String, dynamic> srcJson) => _$IndustryFromJson(srcJson);
 
   Map<String, dynamic> toJson() => _$IndustryToJson(this);

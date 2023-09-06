@@ -6,8 +6,9 @@ class _CompanyDetailedSceneBuilder extends BaseSceneWidgetBuilder<_CompanyDetail
   @override
   Widget sceneWidget(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(
+      appBar: CompanyDetailedAppBar(
         title: state._argIndustry.industryType.desc,
+        centerTitle: Obx(() => Text(state._rxRemark.value, style: const TextStyle(color: Colors.black))),
         actions: [
           InkWell(
             onTap: state._onAddToFavorite,
@@ -23,25 +24,26 @@ class _CompanyDetailedSceneBuilder extends BaseSceneWidgetBuilder<_CompanyDetail
           )
         ],
       ),
-      body: abc,
-    );
-  }
-
-  Widget get abc => NotificationListener(
+      body: NotificationListener(
         onNotification: (t) {
-          if (t is ScrollEndNotification) {
-            print(state._scrollController.position.pixels);
+          if (state._scrollController.position.pixels > 0) {
+            state._rxRemark.value = state._codeNameWithCompanyName;
+          } else {
+            state._rxRemark.value = "";
           }
+          state._rxRemark.refresh();
           return true;
         },
         child: _body,
-      );
+      ),
+    );
+  }
 
   Widget get _body => ListView(
         controller: state._scrollController,
         padding: const EdgeInsets.symmetric(horizontal: 15),
         children: [
-          BaseWidget.header(title: "${state._argIndustry.companyCodename} ${state._argIndustry.companyNameShort}"),
+          BaseWidget.header(title: state._codeNameWithCompanyName),
           const SizedBox(height: 15),
           _companyHeader,
           const SizedBox(height: 15),
@@ -85,7 +87,6 @@ class _CompanyDetailedSceneBuilder extends BaseSceneWidgetBuilder<_CompanyDetail
           /// Spec 上有註明此欄位的計算公式，但從 api 拉回來已經包含此欄位，所以不另做計算。
           BaseWidget.detailedColumn(title: "已發行普通股數或TDR原股發行股數", content: state._argIndustry.issuedShare.numberFormat, suffix: "股"),
           BaseWidget.detailedColumn(title: "特別股", content: state._argIndustry.specialShare.numberFormat, suffix: "股"),
-          Container(color: Colors.grey, height: 500),
           const SafeArea(child: SizedBox.shrink()),
         ],
       );

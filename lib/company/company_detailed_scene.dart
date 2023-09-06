@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:homework/common/extension/extension.dart';
@@ -29,18 +31,13 @@ class CompanyDetailedScene extends StatefulWidget {
 class _CompanyDetailedSceneState extends BaseSceneState<CompanyDetailedScene> {
   final _argIndustry = Get.arguments[CompanyDetailedScene.ARG_INDUSTRY] as Industry;
   final _favoriteManager = Get.find<FavoriteIndustryManager>();
+  final _scrollController = ScrollController();
 
-  late ScrollController _scrollController;
+  final _rxRemark = RxString('');
+  String get remark => _rxRemark.value;
+  set remark(String value) => _rxRemark.value = value;
 
-  @override
-  void initState() {
-    super.initState();
-    _scrollController = ScrollController();
-    _scrollController.addListener(() {
-      // print("atEdge:${_scrollController.position.atEdge}");
-      // print("pixels:${_scrollController.position.pixels}");
-    });
-  }
+  String get _codeNameWithCompanyName => "${_argIndustry.companyCodename} ${_argIndustry.companyNameShort}";
 
   Future<void> _onVisitWebsite() async {
     final String filePath = _argIndustry.website;

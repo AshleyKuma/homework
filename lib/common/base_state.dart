@@ -1,31 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/scheduler.dart';
 
 abstract class BaseState<T extends StatefulWidget> extends State<T> {
   late BaseStateWidgetBuilder _widgetBuilder;
-
-  List<StreamSubscription> disposeBag = [];
-
-  List<ChangeNotifier> controllers = [];
 
   @override
   @mustCallSuper
   void initState() {
     super.initState();
     _widgetBuilder = widgetBuilder;
-    SchedulerBinding.instance.addPostFrameCallback((_) => onReady());
-  }
-
-  void onReady() {}
-
-  @override
-  @mustCallSuper
-  void dispose() {
-    super.dispose();
-    disposeBag.forEach((disposable) => disposable.cancel());
-    controllers.forEach((controller) => controller.dispose());
   }
 
   @override

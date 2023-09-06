@@ -9,12 +9,10 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
     Key? key,
     required this.title,
     this.actions,
-    this.centerTitle,
   })  : preferredSize = const Size.fromHeight(kToolbarHeight),
         super(key: key);
 
   final String title;
-  final Widget? centerTitle;
   final List<Widget>? actions;
   @override
   final Size preferredSize;
@@ -108,7 +106,7 @@ class CompanyDetailedAppBar extends StatelessWidget implements PreferredSizeWidg
         ]),
         backgroundColor: Colors.white,
         elevation: 1,
-        leadingWidth: 100,
+        leadingWidth: 155,
         actions: actions,
         systemOverlayStyle: SystemUiOverlayStyle(
           systemNavigationBarColor: const Color(0xFF000000),

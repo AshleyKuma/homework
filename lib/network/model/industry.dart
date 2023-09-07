@@ -5,6 +5,7 @@ part 'industry.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Industry extends Equatable {
+  /// 避免 API 回傳的資料是 Null，預設都帶空字串
   const Industry({
     this.releaseDate = "",
     this.companyCodename = "",

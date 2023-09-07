@@ -1,63 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:homework/common/extension/extension.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../common/widget/base_getx_widget.dart';
-import '../managers/favorite_manager.dart';
 import '../../common/widget/base_widget.dart';
-import '../../common/widget/modal_presenter.dart';
 import '../../network/model/industry.dart';
 import '../common/widget/base_app_bar.dart';
-
-class CompanyDetailedController extends BaseController {
-  static const String ARG_INDUSTRY = "ARG_INDUSTRY";
-  static Map<String, dynamic> genArgs({required Industry industry}) => {
-        ARG_INDUSTRY: industry,
-      };
-
-  final _argIndustry = Get.arguments[CompanyDetailedController.ARG_INDUSTRY] as Industry;
-  final _favoriteManager = Get.find<FavoriteManager>();
-  final _rxAppBarTitle = RxString('');
-
-  Future<void> _onVisitWebsite() async {
-    final filePath = _argIndustry.website;
-    final uri = Uri.parse(filePath);
-    if (!await launchUrl(uri)) {
-      ModalPresenter.presentAlert(title: "Oops", content: "無法打開 $filePath");
-    }
-  }
-
-  Future<void> _onFavoriteTapped() async {
-    String codename = _argIndustry.companyCodename;
-    if (_favoriteManager.isAlreadyAddedToFavorite(codename)) {
-      final option = await ModalPresenter.presentDialog(
-        title: "從追蹤列表移除",
-        content: "是否將 ${_argIndustry.infoInShort} 從追蹤列表移除？",
-        positiveText: "移除",
-      );
-      if (option == DialogOption.positive) {
-        await _favoriteManager.removeFromFavorite(codename);
-        ModalPresenter.presentAlert(title: "成功", content: "已成功移除");
-      }
-    } else {
-      final option = await ModalPresenter.presentDialog(
-        title: "加入追蹤列表",
-        content: "是否將 ${_argIndustry.infoInShort} 加入追蹤列表內？",
-        positiveText: "加入",
-      );
-      if (option == DialogOption.positive) {
-        await _favoriteManager.addToFavorite(codename);
-        ModalPresenter.presentAlert(title: "成功", content: "已成功加入");
-      }
-    }
-  }
-}
+import '../company_detailed/company_detailed_controller.dart';
 
 class CompanyDetailedView extends BaseView<CompanyDetailedController> {
   CompanyDetailedView({super.key});
 
-  Industry get model => controller._argIndustry;
+  Industry get model => controller.argIndustry;
   final _scrollController = ScrollController();
 
   @override
@@ -67,15 +21,15 @@ class CompanyDetailedView extends BaseView<CompanyDetailedController> {
   Widget sceneWidget(BuildContext context) => Scaffold(
         appBar: CompanyDetailedAppBar(
           title: model.industryType.desc,
-          centerTitle: Obx(() => Text(controller._rxAppBarTitle.value, style: const TextStyle(color: Colors.black))),
+          centerTitle: Obx(() => Text(controller.rxAppBarTitle.value, style: const TextStyle(color: Colors.black))),
           actions: [
             InkWell(
-              onTap: controller._onFavoriteTapped,
+              onTap: controller.onFavoriteTapped,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Obx(() {
                   return Icon(
-                    controller._favoriteManager.isAlreadyAddedToFavorite(model.companyCodename) ? Icons.star : Icons.star_border,
+                    controller.favoriteManager.isAlreadyAddedToFavorite(model.companyCodename) ? Icons.star : Icons.star_border,
                     color: Colors.black,
                   );
                 }),
@@ -85,12 +39,13 @@ class CompanyDetailedView extends BaseView<CompanyDetailedController> {
         ),
         body: NotificationListener(
           onNotification: (t) {
+            /// 根據頁面滾動的所在位置決定是否要顯示動態 AppBarTitle
             if (_scrollController.position.pixels > 0) {
-              controller._rxAppBarTitle.value = model.infoInShort;
+              controller.rxAppBarTitle.value = model.infoInShort;
             } else {
-              controller._rxAppBarTitle.value = "";
+              controller.rxAppBarTitle.value = "";
             }
-            controller._rxAppBarTitle.refresh();
+            controller.rxAppBarTitle.refresh();
             return true;
           },
           child: _body,
@@ -142,7 +97,7 @@ class CompanyDetailedView extends BaseView<CompanyDetailedController> {
           BaseWidget.detailedColumn(title: "實收資本額(元)", content: model.capitalAmount.numberFormat, suffix: "元"),
           BaseWidget.detailedColumn(title: "普通股每股面額", content: model.commonShareUnit),
 
-          /// Spec 上有註明此欄位的計算公式，但從 api 拉回來已經包含此欄位，所以不另做計算。
+          /// Spec 上有註明此欄位的計算公式，但從 API 拉回來已經包含此欄位，所以不另做計算
           BaseWidget.detailedColumn(title: "已發行普通股數或TDR原股發行股數", content: model.issuedShare.numberFormat, suffix: "股"),
           BaseWidget.detailedColumn(title: "特別股", content: model.specialShare.numberFormat, suffix: "股"),
           const SafeArea(child: SizedBox.shrink()),
@@ -161,7 +116,7 @@ class CompanyDetailedView extends BaseView<CompanyDetailedController> {
         const Text("基本資料", style: TextStyle(color: Colors.grey, fontSize: 15)),
         const SizedBox(height: 5),
         GestureDetector(
-          onTap: model.clickable ? controller._onVisitWebsite : null,
+          onTap: model.clickable ? controller.onVisitWebsite : null,
           child: Row(
             children: [
               Text(model.companyName,

@@ -1,26 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../app_routes.dart';
 import '../../common/widget/base_getx_widget.dart';
 import '../../common/widget/base_widget.dart';
-import '../../common/widget/modal_presenter.dart';
-import '../../company/company_view.dart';
-import '../../managers/industry_manager.dart';
 import '../../network/model/industry.dart';
-import '../../network/model/industry_display_model.dart';
-
-class IndustryController extends BaseController {
-  final _industryManager = Get.find<IndustryManager>();
-
-  Future<void> _onGoToCompanyList(IndustryDisplayModel? model) async {
-    if (model == null) {
-      ModalPresenter.presentAlert(title: "Oops", content: "此產業別沒有上市公司資料");
-      return;
-    }
-    Get.toNamed(AppRoutes.Company, arguments: CompanyController.genArgs(type: model.industryType));
-  }
-}
+import 'industry_controller.dart';
 
 class IndustryView extends BaseView<IndustryController> {
   IndustryView({super.key});
@@ -46,19 +30,23 @@ class IndustryView extends BaseView<IndustryController> {
       );
 
   Widget get _list => Obx(() {
-        return controller._industryManager.apiResultState.maybeWhen(
+        return controller.industryManager.apiResultState.maybeWhen(
           loading: (_) => const SizedBox.shrink(),
           success: (_) {
-            final data = controller._industryManager.companiesForDisplay;
+            final data = controller.industryManager.companiesForDisplay;
             if (data.isEmpty) {
               return BaseWidget.emptyView;
             }
+
+            /// 迴圈所有產業別
             final industryTypeList = IndustryType.values.where((e) => e != IndustryType.unknown).map((type) {
               final currentType = data.firstWhereOrNull((e) => e.industryType == type);
+
+              /// API 若沒回傳則一律帶 0
               int currentTypeCount = currentType == null ? 0 : currentType.companyCount;
               return BaseWidget.cell(
                 text: "${type.desc} ($currentTypeCount)",
-                onTap: () => controller._onGoToCompanyList(currentType),
+                onTap: () => controller.onGoToCompanyList(currentType),
               );
             }).toList();
             return ListView(padding: EdgeInsets.zero, children: industryTypeList);

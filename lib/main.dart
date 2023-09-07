@@ -7,17 +7,15 @@ import 'package:homework/app_routes.dart';
 import 'package:homework/tab/favorite/favorite_view.dart';
 import 'package:homework/tab/industry/industry_view.dart';
 import 'common/dio/http_service_module.dart';
-import 'company/company_detail_view.dart';
 import 'company/company_view.dart';
+import 'company_detailed/company_detailed_view.dart';
 import 'initial/initial_view.dart';
 import 'launch/launch_view.dart';
 import 'main_binding.dart';
 
-void main() {
-  runZonedGuarded(() async {
-    await HttpServiceModule().bind();
-    runApp(const MyApp());
-  }, (error, stackTrace) {});
+void main() async {
+  await HttpServiceModule().bind();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

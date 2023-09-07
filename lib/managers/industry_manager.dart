@@ -11,7 +11,7 @@ import '../network/model/industry_display_model.dart';
 import '../network/service/api_service.dart';
 
 class IndustryManager extends GetxService {
-  final service = APIService(Get.find<Dio>(tag: HttpServiceModule.tagHomework));
+  final _service = APIService(Get.find<Dio>(tag: HttpServiceModule.tagHomework));
 
   final rxApiResultState = Rx<ApiResultState<List<IndustryDisplayModel>>>(const ApiResultState.idle());
   ApiResultState<List<IndustryDisplayModel>> get apiResultState => rxApiResultState.value;
@@ -26,6 +26,7 @@ class IndustryManager extends GetxService {
   List<IndustryDisplayModel> get companiesForDisplay => _rxCompaniesForDisplay;
   set companiesForDisplay(List<IndustryDisplayModel> value) => _rxCompaniesForDisplay.value = value;
 
+  /// 利用產業別找出相對應的上市公司列表
   List<Industry> getCompaniesByIndustryType(IndustryType type) => companies.where((e) => e.industryType == type).toList();
 
   StreamSubscription<ApiResultState<List<IndustryDisplayModel>>> Function(
@@ -35,14 +36,6 @@ class IndustryManager extends GetxService {
     bool? cancelOnError,
   }) get apiResultStateListener => rxApiResultState.listen;
 
-  @override
-  void onClose() {
-    if (apiResultState is ApiResultStateLoading) {
-      (apiResultState as ApiResultStateLoading).cancelToken.cancel();
-    }
-    super.onClose();
-  }
-
   Future<void> getCompanyList() async {
     if (apiResultState is ApiResultStateLoading) return;
 
@@ -50,7 +43,7 @@ class IndustryManager extends GetxService {
     rxApiResultState.value = ApiResultState.loading(cancelToken: cancelToken);
 
     try {
-      final response = await service.getCompanyList();
+      final response = await _service.getCompanyList();
       _rxCompanies.value = response.where((e) => e.industryType != IndustryType.unknown).toList();
 
       /// Group by 產業別
@@ -72,5 +65,13 @@ class IndustryManager extends GetxService {
       }
       rxApiResultState.value = const ApiResultState.error();
     }
+  }
+
+  @override
+  void onClose() {
+    if (apiResultState is ApiResultStateLoading) {
+      (apiResultState as ApiResultStateLoading).cancelToken.cancel();
+    }
+    super.onClose();
   }
 }

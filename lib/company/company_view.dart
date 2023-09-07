@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../app_routes.dart';
 import '../common/widget/base_getx_widget.dart';
 import '../../common/widget/base_widget.dart';
 import '../managers/industry_manager.dart';
@@ -9,20 +10,18 @@ import '../common/widget/base_app_bar.dart';
 import 'company_detail_view.dart';
 
 class CompanyController extends BaseController {
-  static const routeName = "/Company";
-
   static const ARG_INDUSTRY_TYPE = "ARG_INDUSTRY_TYPE";
   static Map<String, dynamic> genArgs({required IndustryType type}) => {
         ARG_INDUSTRY_TYPE: type,
       };
 
-  final _getCompanyListController = Get.find<IndustryManager>();
+  final _industryManager = Get.find<IndustryManager>();
   final _argIndustryType = Get.arguments[CompanyController.ARG_INDUSTRY_TYPE] as IndustryType;
 
-  List<Industry> get _companies => _getCompanyListController.getCompaniesByIndustryType(_argIndustryType);
+  List<Industry> get _companies => _industryManager.getCompaniesByIndustryType(_argIndustryType);
 
   Future<void> _onGoToCompanyDetail(Industry industry) async {
-    Get.toNamed(CompanyDetailedController.routeName,
+    Get.toNamed(AppRoutes.CompanyDetailed,
         arguments: CompanyDetailedController.genArgs(
           industry: industry,
         ));

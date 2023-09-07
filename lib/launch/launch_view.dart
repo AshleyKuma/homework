@@ -12,17 +12,18 @@ const String loadingWording = "讀取資料中...";
 const String fetchFailedWording = "資料讀取失敗，請稍後再試";
 
 class LaunchController extends BaseController {
-  static const routeName = "/Launch";
-
-  final _getCompanyListController = Get.find<IndustryManager>();
+  final _industryManager = Get.find<IndustryManager>();
   Rx<TabBarItem> selectedTabBar = TabBarItem.industry.obs;
 
   @override
   void onReady() {
     super.onReady();
-    _getCompanyListController.getCompanyList();
 
-    _getCompanyListController.apiResultStateListener(
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _industryManager.getCompanyList();
+    });
+
+    _industryManager.apiResultStateListener(
       (state) => state.maybeWhen<void>(
         success: (_) => [EasyLoading.dismiss()],
         loading: (_) => [EasyLoading.show(status: loadingWording)],

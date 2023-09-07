@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../app_routes.dart';
 import '../../common/widget/base_getx_widget.dart';
 import '../../common/widget/base_widget.dart';
 import '../../common/widget/modal_presenter.dart';
@@ -10,19 +11,14 @@ import '../../network/model/industry.dart';
 import '../../network/model/industry_display_model.dart';
 
 class IndustryController extends BaseController {
-  static const routeName = "/Industry";
-
-  final _getCompanyListController = Get.find<IndustryManager>();
+  final _industryManager = Get.find<IndustryManager>();
 
   Future<void> _onGoToCompanyList(IndustryDisplayModel? model) async {
     if (model == null) {
       ModalPresenter.presentAlert(title: "Oops", content: "此產業別沒有上市公司資料");
       return;
     }
-    Get.toNamed(CompanyController.routeName,
-        arguments: CompanyController.genArgs(
-          type: model.industryType,
-        ));
+    Get.toNamed(AppRoutes.Company, arguments: CompanyController.genArgs(type: model.industryType));
   }
 }
 
@@ -50,10 +46,10 @@ class IndustryView extends BaseView<IndustryController> {
       );
 
   Widget get _list => Obx(() {
-        return controller._getCompanyListController.apiResultState.maybeWhen(
+        return controller._industryManager.apiResultState.maybeWhen(
           loading: (_) => const SizedBox.shrink(),
           success: (_) {
-            final data = controller._getCompanyListController.companiesForDisplay;
+            final data = controller._industryManager.companiesForDisplay;
             if (data.isEmpty) {
               return BaseWidget.emptyView;
             }

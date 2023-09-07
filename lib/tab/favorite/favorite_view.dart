@@ -3,6 +3,7 @@ import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:get/get.dart';
 import 'package:homework/company/company_detail_view.dart';
 
+import '../../app_routes.dart';
 import '../../common/widget/base_getx_widget.dart';
 import '../../managers/favorite_manager.dart';
 import '../../common/widget/base_widget.dart';
@@ -11,13 +12,11 @@ import '../../managers/industry_manager.dart';
 import '../../network/model/industry.dart';
 
 class FavoriteController extends BaseController {
-  static const routeName = "/Favorite";
-
   final _favoriteManager = Get.find<FavoriteManager>();
-  final _getCompanyListController = Get.find<IndustryManager>();
+  final _industryManager = Get.find<IndustryManager>();
 
   Future<void> _onGoToCompanyDetail(Industry industry) async {
-    Get.toNamed(CompanyDetailedController.routeName,
+    Get.toNamed(AppRoutes.CompanyDetailed,
         arguments: CompanyDetailedController.genArgs(
           industry: industry,
         ));
@@ -61,11 +60,11 @@ class FavoriteView extends BaseView<FavoriteController> {
       );
 
   Widget get _list => Obx(() {
-        return controller._getCompanyListController.apiResultState.maybeWhen(
+        return controller._industryManager.apiResultState.maybeWhen(
           loading: (_) => const SizedBox.shrink(),
           success: (_) {
             final favoriteList = controller._favoriteManager.favorites.map((codename) {
-              final company = controller._getCompanyListController.companies.firstWhereOrNull((e) => e.companyCodename == codename);
+              final company = controller._industryManager.companies.firstWhereOrNull((e) => e.companyCodename == codename);
               if (company == null) return const SizedBox.shrink();
 
               final cell = SwipeActionCell(

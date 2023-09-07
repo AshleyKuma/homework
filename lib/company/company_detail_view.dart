@@ -11,8 +11,6 @@ import '../../network/model/industry.dart';
 import '../common/widget/base_app_bar.dart';
 
 class CompanyDetailedController extends BaseController {
-  static const routeName = "/CompanyDetailed";
-
   static const String ARG_INDUSTRY = "ARG_INDUSTRY";
   static Map<String, dynamic> genArgs({required Industry industry}) => {
         ARG_INDUSTRY: industry,
@@ -21,10 +19,7 @@ class CompanyDetailedController extends BaseController {
   final _argIndustry = Get.arguments[CompanyDetailedController.ARG_INDUSTRY] as Industry;
   final _favoriteManager = Get.find<FavoriteManager>();
   final _scrollController = ScrollController();
-
-  final _rxRemark = RxString('');
-  String get remark => _rxRemark.value;
-  set remark(String value) => _rxRemark.value = value;
+  final _rxAppBarTitle = RxString('');
 
   Future<void> _onVisitWebsite() async {
     final filePath = _argIndustry.website;
@@ -72,7 +67,7 @@ class CompanyDetailedView extends BaseView<CompanyDetailedController> {
   Widget sceneWidget(BuildContext context) => Scaffold(
         appBar: CompanyDetailedAppBar(
           title: model.industryType.desc,
-          centerTitle: Obx(() => Text(controller._rxRemark.value, style: const TextStyle(color: Colors.black))),
+          centerTitle: Obx(() => Text(controller._rxAppBarTitle.value, style: const TextStyle(color: Colors.black))),
           actions: [
             InkWell(
               onTap: controller._onFavoriteTapped,
@@ -91,11 +86,11 @@ class CompanyDetailedView extends BaseView<CompanyDetailedController> {
         body: NotificationListener(
           onNotification: (t) {
             if (controller._scrollController.position.pixels > 0) {
-              controller._rxRemark.value = model.infoInShort;
+              controller._rxAppBarTitle.value = model.infoInShort;
             } else {
-              controller._rxRemark.value = "";
+              controller._rxAppBarTitle.value = "";
             }
-            controller._rxRemark.refresh();
+            controller._rxAppBarTitle.refresh();
             return true;
           },
           child: _body,

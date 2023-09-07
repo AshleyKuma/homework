@@ -3,13 +3,13 @@ import 'dart:async';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:homework/company/company_list_scene.dart';
-import 'package:homework/tab/favorite/favorite_list_scene.dart';
-import 'package:homework/tab/industry/industry_list_scene.dart';
+import 'package:homework/greeting/greeting_view.dart';
+import 'package:homework/tab/favorite/favorite_view.dart';
+import 'package:homework/tab/industry/industry_view.dart';
 import 'common/dio/http_service_module.dart';
-import 'company/company_detailed_scene.dart';
-import 'greeting/greeting_scene.dart';
-import 'launch/launch_scene.dart';
+import 'company/company_detail_view.dart';
+import 'company/company_view.dart';
+import 'launch/launch_view.dart';
 import 'main_binding.dart';
 
 void main() {
@@ -27,16 +27,16 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Fugle-Homework',
       getPages: [
-        GetPage(name: LaunchScene.ROUTE_NAME, page: () => const LaunchScene()),
-        GetPage(name: IndustryListScene.ROUTE_NAME, page: () => const IndustryListScene()),
-        GetPage(name: FavoriteListScene.ROUTE_NAME, page: () => const FavoriteListScene()),
-        GetPage(name: CompanyListScene.ROUTE_NAME, page: () => const CompanyListScene()),
-        GetPage(name: CompanyDetailedScene.ROUTE_NAME, page: () => const CompanyDetailedScene()),
+        GetPage(name: LaunchController.routeName, page: () => LaunchView()),
+        GetPage(name: IndustryController.routeName, page: () => IndustryView()),
+        GetPage(name: FavoriteController.routeName, page: () => FavoriteView()),
+        GetPage(name: CompanyController.routeName, page: () => CompanyView()),
+        GetPage(name: CompanyDetailedController.routeName, page: () => CompanyDetailedView()),
       ],
       initialBinding: MainBinding(),
       debugShowCheckedModeBanner: false,
       builder: EasyLoading.init(),
-      home: const GreetingScene(),
+      home: InitialView(),
     );
   }
 }

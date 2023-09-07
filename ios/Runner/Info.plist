@@ -5,7 +5,7 @@
     <key>LSApplicationQueriesSchemes</key>
     <array>
         <string>http</string>
-        <string>https://flutter.dev</string>
+        <string>https</string>
     </array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>

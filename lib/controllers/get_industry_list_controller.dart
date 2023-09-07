@@ -7,7 +7,7 @@ import '../common/dio/http_service_module.dart';
 import '../network/api_result_state.dart';
 import '../network/service/api_service.dart';
 
-class GetIndustryListController extends GetxController {
+class GetIndustryListController extends GetxService {
   final service = APIService(Get.find<Dio>(tag: HttpServiceModule.tagHomework));
 
   final rxApiResultState = Rx<ApiResultState<List<Industry>>>(const ApiResultState.idle());

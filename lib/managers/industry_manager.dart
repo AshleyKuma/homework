@@ -10,7 +10,7 @@ import '../network/api_result_state.dart';
 import '../network/model/industry_display_model.dart';
 import '../network/service/api_service.dart';
 
-class GetCompanyListController extends GetxController {
+class IndustryManager extends GetxService {
   final service = APIService(Get.find<Dio>(tag: HttpServiceModule.tagHomework));
 
   final rxApiResultState = Rx<ApiResultState<List<IndustryDisplayModel>>>(const ApiResultState.idle());
@@ -56,10 +56,6 @@ class GetCompanyListController extends GetxController {
       /// Group by 產業別
       var groupByIndustryType = groupBy(response, (obj) => obj.industryType);
       groupByIndustryType.removeWhere((key, value) => key == IndustryType.unknown);
-
-      // groupByIndustryType.keys.forEach((e) {
-      //   print("type: ${e.desc} count: ${groupByIndustryType[e]?.length}");
-      // });
 
       _rxCompaniesForDisplay.value = groupByIndustryType.keys
           .map((e) => IndustryDisplayModel(

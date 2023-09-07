@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class FavoriteIndustryManager extends GetxService {
+class FavoriteManager extends GetxService {
   late SharedPreferences pref = Get.find();
 
   static const String PREF_KEY_FAVORITE_LIST = "PREF_KEY_FAVORITE_LIST";
@@ -18,13 +18,13 @@ class FavoriteIndustryManager extends GetxService {
     _rxFavorites.value = value;
   }
 
-  void addToFavorite(String codename) async {
+  Future<void> addToFavorite(String codename) async {
     _rxFavorites.add(codename);
     await pref.setStringList(PREF_KEY_FAVORITE_LIST, _rxFavorites);
     _rxFavorites.refresh();
   }
 
-  void removeFromFavorite(String codename) async {
+  Future<void> removeFromFavorite(String codename) async {
     _rxFavorites.remove(codename);
     await pref.setStringList(PREF_KEY_FAVORITE_LIST, _rxFavorites);
     _rxFavorites.refresh();

@@ -18,7 +18,6 @@ class CompanyDetailedController extends BaseController {
 
   final _argIndustry = Get.arguments[CompanyDetailedController.ARG_INDUSTRY] as Industry;
   final _favoriteManager = Get.find<FavoriteManager>();
-  final _scrollController = ScrollController();
   final _rxAppBarTitle = RxString('');
 
   Future<void> _onVisitWebsite() async {
@@ -59,6 +58,7 @@ class CompanyDetailedView extends BaseView<CompanyDetailedController> {
   CompanyDetailedView({super.key});
 
   Industry get model => controller._argIndustry;
+  final _scrollController = ScrollController();
 
   @override
   CompanyDetailedController createController() => CompanyDetailedController();
@@ -85,7 +85,7 @@ class CompanyDetailedView extends BaseView<CompanyDetailedController> {
         ),
         body: NotificationListener(
           onNotification: (t) {
-            if (controller._scrollController.position.pixels > 0) {
+            if (_scrollController.position.pixels > 0) {
               controller._rxAppBarTitle.value = model.infoInShort;
             } else {
               controller._rxAppBarTitle.value = "";
@@ -98,7 +98,7 @@ class CompanyDetailedView extends BaseView<CompanyDetailedController> {
       );
 
   Widget get _body => ListView(
-        controller: controller._scrollController,
+        controller: _scrollController,
         padding: const EdgeInsets.symmetric(horizontal: 15),
         children: [
           BaseWidget.header(title: model.infoInShort),
